@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
+#define max_prime_factor 32
+
+/**
+ * @brief Find the smallest number raised to its own power that divides a given number.
+ */
+
+int main() {
+    int received_num, power_times, num_prime = 0, holder_of_recieved, i,
+        smallest_num = 1, bigest_power = 0, primes[max_prime_factor] = { 0 };
+    
+    scanf("%d", &received_num);
+    holder_of_recieved = received_num;
+
+    // Finding all prime factors and their powers in the received number
+    for (i = 2; i <= sqrt(received_num); i++) {
+        if (holder_of_recieved % i == 0) {
+            primes[num_prime] = i;
+            power_times = 1;
+
+            /* Build the smallest number that shares the same primes 
+             * as the received number, with a power of 1 */
+            smallest_num = smallest_num * primes[num_prime];
+
+            while (holder_of_recieved % i == 0) {
+                power_times++;
+                holder_of_recieved /= i;
+            }
+            
+            if (power_times > bigest_power) {
+                bigest_power = power_times;
+            }
+
+            num_prime++;
+        }
+    }
+
+    // When the received number is prime
+    if (received_num == holder_of_recieved) {
+        printf("%d\n\n", received_num);
+    }
+    /* Check if smallest_num raised to its own power divides the received number */
+    else if (smallest_num > bigest_power) {
+        printf("%d\n\n", smallest_num);
+    }
+    else {
+        while (smallest_num < bigest_power) {
+            // Increase the smallest number using the smallest prime
+            smallest_num = smallest_num * primes[0];
+        }
+        printf("%d\n\n", smallest_num);
+    }
+
+    return 0;
+}
