@@ -1,0 +1,10 @@
+This program implements a simple packet filtering firewall that processes network packets against user-defined rules to identify matches based on source and destination IP addresses,
+as well as ports. It includes a modular design with `Ip` and `Port` classes to handle rule validation and matching for IP addresses and port ranges, respectively.
+The `String` class provides utilities for parsing and processing input, such as splitting and trimming strings,
+while the `main.cpp` file orchestrates rule processing and packet filtering by leveraging these modules. 
+A Bash script, `firewall.sh`, acts as a wrapper to preprocess input, call the compiled firewall executable, and format the output.
+The `makefile` automates the build process, generating shared libraries and the executable.
+The program demonstrates efficient packet filtering using a combination of modular C++ logic and shell scripting.
+
+
+
