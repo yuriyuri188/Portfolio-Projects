@@ -1,0 +1,4 @@
+This program finds the smallest number that, when raised to its own power, divides a given number. 
+It performs prime factorization of the input, identifies the primes and their powers, and calculates the smallest number sharing the same primes. 
+If the input is a prime number, it simply outputs the number.
+Otherwise, it adjusts the smallest number to meet the condition by iteratively multiplying it with the smallest prime factor. The result is then printed as the output.
