@@ -1,0 +1,34 @@
+#!/bin/bash
+
+shopt -s expand_aliases
+alias wg="wget --no-check-certificate -q -O-"
+
+# Fetch URLs from the news page
+urls=$(wg https://www.ynetnews.com/category/3082 | \
+    grep -oP "https://(www.)?ynetnews.com/article/[a-zA-Z0-9]+" | \
+    sort -u)
+
+# Initialize the CSV content with the total URL count
+print+="$(echo "$urls" | wc -l)"
+
+# Process each URL
+echo "$urls" | (
+    while read -r line; do
+        # Fetch the page content and count occurrences of specific names
+        arr=($(wg "$line" | cat - <(echo "Netanyahu Gantz Bennett Peretz") | \
+            grep -oE 'Gantz|Netanyahu|Bennett|Peretz' | \
+            sort -d | uniq -c | awk '{print $1}'))
+
+        # If the array only contains "1 1 1 1", the names are not present
+        if [[ "${arr[*]}" == $'1 1 1 1' ]]; then
+            print+="\n$line, -"
+        else
+            print+="\n$line, Netanyahu, $((${arr[2]}-1)), Gantz, $((${arr[1]}-1)),"
+            print+=" Bennett, $((${arr[0]}-1)), Peretz, $((${arr[3]}-1))"
+        fi
+
+        unset arr
+    done
+    # Save the results to a CSV file
+    echo -e "$print" > results.csv
+)
