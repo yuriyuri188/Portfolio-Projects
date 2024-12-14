@@ -1,0 +1,7 @@
+This C program counts how many times each digit (0–9) appears in an input string provided by the user. It does so by:
+
+1) Reading Input: The program takes a string input from the user, which can contain any characters (letters, digits, symbols).
+
+2)Digit Validation and Counting: It iterates through the string and checks if each character is a digit (0,9) If a digit is found, it increments the count for that specific digit in an array.
+
+3) Output: After processing the string, the program prints the count of each digit in order (0,9) as a space-separated list.
