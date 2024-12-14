@@ -1,0 +1,2 @@
+This Bash script scrapes a news website for articles, processes the content of each article, and counts occurrences of specific names (Netanyahu, Gantz, Bennett, and Peretz). 
+It outputs the results to a CSV file
