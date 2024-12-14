@@ -1,0 +1,5 @@
+
+This C program implements three functions (`m_sum`, `m_min`, and `m_max`) to calculate the sum,
+minimum, and maximum of a variable number of positive integer arguments using variadic functions.
+It also contains test cases that randomly generate 3, 5, and 10 integers, test the correctness of these functions by comparing their results with manually calculated expectations,
+and validate the output. The program runs for a specified number of test cases and prints "Correct Answer" if all checks pass or "Wrong Answer" otherwise.
