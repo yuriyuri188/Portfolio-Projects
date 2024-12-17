@@ -1,0 +1,7 @@
+This program implements a Student Grades Management System that maintains a list of students,
+where each student has their own list of courses and associated grades. 
+It provides functionalities to add students, assign grades for specific courses, 
+calculate the average grade of a student, and print individual or all student records.
+The program uses a modular approach by leveraging a linked list data structure (linked-list.h) 
+to dynamically manage students and their respective courses.
+It includes efficient cloning, memory management, and searching mechanisms to handle the addition and retrieval of student data.
