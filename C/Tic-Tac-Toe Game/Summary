@@ -1,0 +1,5 @@
+This program implements a variant of the classic Tic-Tac-Toe game called Avoidance Tic-Tac-Toe.
+The game allows two players, represented as P1 and P2, to take turns making moves on a dynamic board of size specified by the user (up to 11x11).
+The game introduces additional mechanics such as move erasure, where players can "undo" a specified number of past turns to modify the board. 
+It keeps track of moves using a turn history table, ensuring the correct order of moves can be erased.
+The program includes logic to check for winning conditions, such as filling rows, columns, diagonals, or handling edge cases like a board size of 1.
