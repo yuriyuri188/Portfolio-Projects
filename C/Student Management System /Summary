@@ -1,0 +1,6 @@
+his program implements a Student Management System that uses a stack data structure to manage student records. Each student record contains a name, age, and ID.
+The program provides functionalities to create, clone, print, and destroy student records while ensuring input validation.
+The stack is designed as a generic data structure with operations like push, pop, peek, print, and capacity management, making it adaptable for other data types as well.
+The stack.c and stack.h files define and implement the stack with custom cloning, destroying,
+and printing functions provided by the user. The student.c and student.h files implement the specific behavior for managing student records, including memory allocation, validation, and display.
+The Makefile automates the build process, compiling the source files into an executable (prog.exe).
