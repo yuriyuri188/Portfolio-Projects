@@ -1,0 +1,165 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+/*-------------------------------------------------------------------------*/
+#define N 11
+#define P1 1
+#define P2 2
+#define notPlayed -1
+#define NO 0
+#define Complete 1
+
+/*-------------------------------------------------------------------------*/
+void print_welcome();
+void print_enter_board_size();
+void print_board(char board[N][N], int n);
+void print_player_turn(int player_index);
+void print_error();
+void print_winner(int player_index);
+void print_tie();
+int manageGame(int size, int turnsHistory[N][N]);
+void fillTableWith_(char board[N][N]);
+void fillTableWith1Minus(int turnsHistory[N][N]);
+int isThereAwinner(char board[N][N], int size, int *player);
+int eachLine(char board[N][N], int size);
+int eachRow(char board[N][N], int size);
+int Diagonal(char board[N][N], int size);
+int secondDiagonal(char board[N][N], int size);
+int eachTurn(char board[N][N], int *player, int *pTurnCounter, int size, int turnsHistory[N][N]);
+int intake(char board[N][N], int *player, int line, int row, int size, int turnsHistory[N][N], int *pTurnCounter);
+int erasure(char board[N][N], int *player, int line, int size, int turnsHistory[N][N], int *pTurnCounter);
+void swap(int *p);
+int absolute(int num);
+int thereIsMistake();
+int theTaskComplete(char board[N][N], int size);
+int boardSizeOne(char board[N][N], int line, int row);
+
+/*-------------------------------------------------------------------------*/
+int main() {
+    int size, checkWinner = NO;
+    print_welcome();
+    print_enter_board_size();
+    scanf("%d", &size);
+    int turnsHistory[N][N];
+    fillTableWith1Minus(turnsHistory);
+    checkWinner = manageGame(size, turnsHistory);
+    if ((checkWinner == P1) || (checkWinner == P2))
+        print_winner(checkWinner);
+    else
+        print_tie();
+    return 0;
+}
+
+void swap(int *p) {
+    if (*p == P1)
+        *p = P2;
+    else
+        *p = P1;
+}
+
+int absolute(int num) {
+    return (num >= 0) ? num : -num;
+}
+
+int thereIsMistake() {
+    print_error();
+    return NO;
+}
+
+int theTaskComplete(char board[N][N], int size) {
+    print_board(board, size);
+    return Complete;
+}
+
+int manageGame(int size, int turnsHistory[N][N]) {
+    char board[N][N];
+    int turnCounter = 0, checkWin = NO, player = P1, line = 0, row = 0;
+    int *pPl = &player, *PturnCounter = &turnCounter;
+    fillTableWith_(board);
+    print_board(board, size);
+    if (size != 1) {
+        while ((turnCounter < (size * size)) && (checkWin == NO)) {
+            checkWin = eachTurn(board, pPl, PturnCounter, size, turnsHistory);
+        }
+        return checkWin;
+    } else
+        return boardSizeOne(board, line, row);
+}
+
+int eachTurn(char board[N][N], int *player, int *PturnCounter, int size, int turnsHistory[N][N]) {
+    int line = 0, row = 0, checkInsert = NO, checkRemove = NO;
+    print_player_turn(*player);
+    while ((checkInsert == NO) && (checkRemove == NO)) {
+        scanf("%d", &line);
+        if (line >= 0) {
+            scanf("%d", &row);
+            checkInsert = intake(board, player, line, row, size, turnsHistory, PturnCounter);
+        } else {
+            checkRemove = erasure(board, player, absolute(line), size, turnsHistory, PturnCounter);
+        }
+    }
+    return isThereAwinner(board, size, player);
+}
+
+int intake(char board[N][N], int *player, int line, int row, int size, int turnsHistory[N][N], int *pTurnCounter) {
+    if ((line <= size) && (row <= size) && (row > 0) && (line > 0)) {
+        if (board[line - 1][row - 1] == '_') {
+            board[line - 1][row - 1] = (*player == P1) ? 'X' : 'O';
+            *pTurnCounter = *pTurnCounter + 1;
+            turnsHistory[line - 1][row - 1] = (*pTurnCounter);
+            swap(player);
+            return theTaskComplete(board, size);
+        }
+    }
+    return thereIsMistake();
+}
+
+int isThereAwinner(char board[N][N], int size, int *player) {
+    if (*player == P2) {
+        if ((eachLine(board, size) == P1) || (eachRow(board, size) == P1) || (Diagonal(board, size) == P1) ||
+            (secondDiagonal(board, size) == P1)) {
+            return P2;
+        }
+    }
+    if (*player == P1) {
+        if ((eachLine(board, size) == P2) || (eachRow(board, size) == P2) || (Diagonal(board, size) == P2) ||
+            (secondDiagonal(board, size) == P2)) {
+            return P1;
+        }
+    }
+    return NO;
+}
+
+void fillTableWith_(char board[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            board[i][j] = '_';
+        }
+    }
+}
+
+void fillTableWith1Minus(int turnsHistory[N][N]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            turnsHistory[i][j] = notPlayed;
+        }
+    }
+}
+
+void print_welcome() { printf("*** Welcome to AVOIDANCE TIC-TAC-TOE game ***\n\n"); }
+void print_enter_board_size() { printf("Please enter board size (1 to %d):\n", N); }
+void print_board(char board[N][N], int n) {
+    printf("\nCurrent board:\n");
+    for (int i = 0; i < n; i++) {
+        printf("|");
+        for (int j = 0; j < n; j++) {
+            printf("%c|", board[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+void print_player_turn(int player_index) { printf("\nPlayer ** %d **, enter next move:\n", player_index); }
+void print_error() { printf("Illegal move!!!, please try again:\n"); }
+void print_winner(int player_index) { printf("Player %d Wins! Hooray!\n", player_index); }
+void print_tie() { printf("It's a tie!\n"); }
